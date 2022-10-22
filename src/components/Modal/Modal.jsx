@@ -1,84 +1,43 @@
-import { useEffect } from "react";
-import { createPortal } from "react-dom";
+import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import styles from './Modal.module.css';
 
-const modalRoot = document.querySelector("#modal-root");
+const modalRoot = document.querySelector('#modal-root');
 
-export default function Modal({onClose,largeImageURL,type}) {
+export default function Modal({
+  onClose,
+  largeImageURL,
+  type,
+}) {
+  useEffect(() => {
+    window.addEventListener('keydown', onEscClose);
 
-useEffect(() => {
-  window.addEventListener("keydown", onEscClose);
+    return () => {
+      window.removeEventListener('keydown', onEscClose);
+    };
+  });
 
-  return () => {
-    window.removeEventListener("keydown", onEscClose);
+  const onEscClose = e => {
+    if (e.code === 'Escape') {
+      onClose();
+    }
   };
-});
 
-const onEscClose = (e) => {
-  if (e.code === "Escape") {
-    onClose();
-  }
-};
-
-const onBackdropClick = (e) => {
-  if (e.currentTarget === e.target) {
-    onClose();
-  }
-};
-
+  const onBackdropClick = e => {
+    if (e.currentTarget === e.target) {
+      onClose();
+    }
+  };
 
   return createPortal(
-    <div onClick={onBackdropClick} className={styles.modalBackdrop}>
+    <div
+      onClick={onBackdropClick}
+      className={styles.modalBackdrop}
+    >
       <div className={styles.modalImage}>
-     
         <img src={largeImageURL} alt={type} />
-       
       </div>
     </div>,
     modalRoot
   );
 }
-
-
-
-
-// const modalRoot = document.querySelector("#modal-root");
-
-// class Modal extends Component {
-//   componentDidMount() {
-//     window.addEventListener("keydown", this.onEscClose);
-//   }
-
-//   componentWillUnmount() {
-//     window.removeEventListener("keydown", this.onEscClose);
-//   }
-
-//   onEscClose = (e) => {
-//     if (e.code === "Escape") {
-//       this.props.onClose();
-//     }
-//   };
-
-//   onBackdropClick = (e) => {
-//     if (e.currentTarget === e.target) {
-//       this.props.onClose();
-//     }
-//   };
-
-//   render() {
-//     const { largeImageURL, type } = this.props;
-  
-//     return createPortal(
-//       <div onClick={this.onBackdropClick} className={styles.modalBackdrop}>
-//         <div className={styles.modalImage}>
-       
-//           <img src={largeImageURL} alt={type} />
-         
-//         </div>
-//       </div>,
-//       modalRoot
-//     );
-//   }
-// }
-
-// export default Modal;

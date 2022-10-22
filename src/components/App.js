@@ -1,26 +1,21 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 import ImageInfo from './ImageInfo';
 import Searchbar from './Searchbar/Searchbar';
 
-export class App extends Component {
-  state = {
-    imageName: '',
-  };
-  formSubmitHandler = imageName => {
-    this.setState({
-      imageName,
-    });
- 
-  };
-  render() {
-    return (
-      <>
-        <Searchbar
-          onSubmit={this.formSubmitHandler}
-        ></Searchbar>
+import React from 'react';
 
-        <ImageInfo imageName={this.state.imageName} />
-      </>
-    );
-  }
+export function App() {
+  const [imageName, setImageName] = useState('');
+
+  const formSubmitHandler = imageName => {
+    setImageName(imageName);
+  };
+
+  return (
+    <>
+      <Searchbar onSubmit={formSubmitHandler}></Searchbar>
+
+      <ImageInfo imageName={imageName} />
+    </>
+  );
 }

@@ -1,22 +1,19 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 import styles from '../Searchbar/Searchbar.module.css';
 import { MdTravelExplore } from 'react-icons/md';
 import { toast, ToastContainer } from 'react-toastify';
-
 import 'react-toastify/dist/ReactToastify.css';
 
-class Searchbar extends Component {
-  state = {
-    imageName: '',
+export default function Searchbar({ onSubmit }) {
+  const [imageName, setImageName] = useState('');
+
+  const handleInputChange = e => {
+    setImageName(e.currentTarget.value);
   };
 
-  handleInputChange = e => {
-    this.setState({ imageName: e.currentTarget.value });
-  };
-
-  handleSubmitForm = e => {
+  const handleSubmitForm = e => {
     e.preventDefault();
-    if (this.state.imageName.trim() === '') {
+    if (imageName.trim() === '') {
       const error = toast.error(
         `Please, enter the name of image`,
         {
@@ -25,49 +22,34 @@ class Searchbar extends Component {
       );
       return error;
     }
-    this.props.onSubmit(this.state.imageName);
-    this.reset();
+    onSubmit(imageName);
+    setImageName('');
   };
 
-  reset = () => {
-    this.setState({
-      imageName: '',
-    });
-  };
+  return (
+    <>
+      <header className={styles.header}>
+        <form
+          className={styles.form}
+          onSubmit={handleSubmitForm}
+        >
+          <button className={styles.formBtn} type="submit">
+            <MdTravelExplore className={styles.formIcon} />
+          </button>
 
-  render() {
-    return (
-      <>
-        <header className={styles.header}>
-          <form
-            className={styles.form}
-            onSubmit={this.handleSubmitForm}
-          >
-            <button
-              className={styles.formBtn}
-              type="submit"
-            >
-              <MdTravelExplore
-                className={styles.formIcon}
-              />
-            </button>
+          <input
+            className={styles.formInput}
+            onChange={handleInputChange}
+            type="text"
+            autoComplete="off"
+            autoFocus
+            value={imageName}
+            placeholder="Search images and photos"
+          />
+        </form>
+      </header>
 
-            <input
-              className={styles.formInput}
-              onChange={this.handleInputChange}
-              type="text"
-              autoComplete="off"
-              autoFocus
-              value={this.state.imageName}
-              placeholder="Search images and photos"
-            />
-          </form>
-        </header>
-
-        <ToastContainer />
-      </>
-    );
-  }
+      <ToastContainer />
+    </>
+  );
 }
-
-export default Searchbar;
