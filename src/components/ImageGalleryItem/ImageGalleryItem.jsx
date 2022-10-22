@@ -1,5 +1,6 @@
 import styles from './ImageGalleryItem.module.css';
 
+
 const ImageGalleryItem = ({ data, onImageClick }) => {
   const { webformatURL, largeImageURL, type } = data;
 
@@ -7,7 +8,7 @@ const ImageGalleryItem = ({ data, onImageClick }) => {
     onImageClick(largeImageURL);
 
   return (
-    <li className={styles.item}>
+    <li  className={styles.item}>
       <img
         className={styles.image}
         src={webformatURL}
