@@ -1,0 +1,27 @@
+.loadMoreBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 0 auto;
+  padding: 5px 10px;
+  background-color: #0921a8;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 1px 5px 5px #ccc;
+  color: rgb(250, 237, 237);
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 24px;
+
+  transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.loadMoreBtn:hover,
+.loadMoreBtn:focus {
+  background-color: #13237b;
+  transform: scale(1.02);
+}
+
+.btnContainer {
+  padding: 20px;
+}
