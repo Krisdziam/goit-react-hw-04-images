@@ -7,10 +7,6 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function Searchbar({ onSubmit }) {
   const [imageName, setImageName] = useState('');
 
-  const handleInputChange = e => {
-    setImageName(e.currentTarget.value);
-  };
-
   const handleSubmitForm = e => {
     e.preventDefault();
     if (imageName.trim() === '') {
@@ -39,7 +35,7 @@ export default function Searchbar({ onSubmit }) {
 
           <input
             className={styles.formInput}
-            onChange={handleInputChange}
+            onChange={(e) => setImageName(e.currentTarget.value.toLowerCase())}
             type="text"
             autoComplete="off"
             autoFocus
