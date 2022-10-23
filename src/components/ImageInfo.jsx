@@ -8,71 +8,48 @@ import { fetchImages } from './ServiceApi/ServiceApi';
 import styles from './ImageInfo.module.css';
 import { MdOutlinePhotoSizeSelectActual } from 'react-icons/md';
 
-export default function ImageInfo({ imageName, error, items,status,loadMore,isLoad }) {
-  // const [imageNames, setImageNames] = useState('');
-  // const [page, setPage] = useState(1);
-  // const [items, setItems] = useState([]);
+export default function ImageInfo({ imageName }) {
+  const [page, setPage] = useState(1);
+  const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState(null);
+  const [error, setError] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [largeImageURL, setLargeImageURL] = useState('');
-// const load = status === 'pending'
+  const [status, setStatus] = useState('idle');
 
-
-
-  const handleLoadMore = ()=> {
-   loadMore()
-    // setIsLoading(false);
-
-    // fetchImages(
-    //  imageName,
-    //   page
-    // ).then(data =>{
-    //   setItems((prevState) => [...prevState.items, ...data.hits])
-    //   setStatus('resolved')
-    //   setIsLoading(false);
-    // }
-
-    // );
+  const handleLoadMore = () => {
+    setPage(prevState => prevState + 1);
+    setIsLoading(true);
   };
 
-  // useEffect(() => {
-  //   if (!imageName) {
-  //     return;
-  //   }
+  useEffect(() => {
+    if (!imageName) {
+      return;
+    }
 
-  //   setIsLoading(true);
-  //   setStatus('pending');
+    setIsLoading(true);
 
-  //   fetchImages(imageName, page)
-  //     .then(data => {
-  //       setItems(prevState => [...prevState, ...data.hits]);
+    fetchImages(imageName, page)
+      .then(data => {
+        setItems(prevState => [...prevState, ...data.hits]);
 
-  //       setStatus('resolved');
-  //     })
-  //     .catch(error => {
-  //       setError(error);
-  //       setStatus('rejected');
-  //     })
-  //     .finally(() => setIsLoading(false));
-  // }, [imageName, page]);
+        setStatus('resolved');
+      })
+      .catch(error => {
+        setError(error);
+        setStatus('rejected');
+      })
+      .finally(() => setIsLoading(false));
+  }, [imageName, page]);
 
-  // const openModal = () => {
-  //   setModalOpen(!modalOpen);
-  // };
+  const openModal = () => {
+    setModalOpen(!modalOpen);
+  };
 
   const onGalleryItemClick = largeImageURL => {
     setLargeImageURL(largeImageURL);
     setModalOpen(true);
   };
-
-    const openModal = () => {
-    setModalOpen(!modalOpen);
-  };
-
-  // const resetPage = () => {
-  //   setPage(1)
-  // };
 
   if (status === 'idle') {
     return (
@@ -124,5 +101,3 @@ export default function ImageInfo({ imageName, error, items,status,loadMore,isLo
     );
   }
 }
-
-
