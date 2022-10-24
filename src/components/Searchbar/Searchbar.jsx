@@ -35,7 +35,11 @@ export default function Searchbar({ onSubmit }) {
 
           <input
             className={styles.formInput}
-            onChange={(e) => setImageName(e.currentTarget.value.toLowerCase())}
+            onChange={e =>
+              setImageName(
+                e.currentTarget.value.toLowerCase()
+              )
+            }
             type="text"
             autoComplete="off"
             autoFocus

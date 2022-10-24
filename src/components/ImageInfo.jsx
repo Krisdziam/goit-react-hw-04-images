@@ -1,46 +1,26 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Button from './Button/Button';
 import ImageGallery from './ImageGallery/ImageGallery';
 import ImageGalleryItem from './ImageGalleryItem/ImageGalleryItem';
 import Loader from './Loader/Loader';
 import Modal from './Modal/Modal';
-import { fetchImages } from './ServiceApi/ServiceApi';
+
 import styles from './ImageInfo.module.css';
 import { MdOutlinePhotoSizeSelectActual } from 'react-icons/md';
 
-export default function ImageInfo({ imageName }) {
-  const [page, setPage] = useState(1);
-  const [items, setItems] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+export default function ImageInfo({
+  items,
+  onLoadMore,
+  isLoading,
+  status,
+  imageName,
+}) {
   const [modalOpen, setModalOpen] = useState(false);
   const [largeImageURL, setLargeImageURL] = useState('');
-  const [status, setStatus] = useState('idle');
 
   const handleLoadMore = () => {
-    setPage(prevState => prevState + 1);
-    setIsLoading(true);
+    onLoadMore();
   };
-
-  useEffect(() => {
-    if (!imageName) {
-      return;
-    }
-
-    setIsLoading(true);
-
-    fetchImages(imageName, page)
-      .then(data => {
-        setItems(prevState => [...prevState, ...data.hits]);
-
-        setStatus('resolved');
-      })
-      .catch(error => {
-        setError(error);
-        setStatus('rejected');
-      })
-      .finally(() => setIsLoading(false));
-  }, [imageName, page]);
 
   const openModal = () => {
     setModalOpen(!modalOpen);
